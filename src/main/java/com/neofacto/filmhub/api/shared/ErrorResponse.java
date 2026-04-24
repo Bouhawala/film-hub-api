@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.auth.exception;
+package com.neofacto.filmhub.api.shared;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

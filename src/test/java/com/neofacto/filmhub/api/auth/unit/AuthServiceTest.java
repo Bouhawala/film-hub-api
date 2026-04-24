@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.auth.service;
+package com.neofacto.filmhub.api.auth.unit;
 
 import com.neofacto.filmhub.api.auth.dto.AuthResponse;
 import com.neofacto.filmhub.api.auth.dto.LoginRequest;

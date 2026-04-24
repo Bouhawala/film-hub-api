@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.auth.integration;
+package com.neofacto.filmhub.api.auth.slice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neofacto.filmhub.api.auth.dto.LoginRequest;
@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("local")
-class AuthIntegrationTest {
+@ActiveProfiles("test")
+class AuthSliceTest {
 
     @Autowired
     private MockMvc mockMvc;

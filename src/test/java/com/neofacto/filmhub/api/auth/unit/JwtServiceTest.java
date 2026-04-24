@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.auth.service;
+package com.neofacto.filmhub.api.auth.unit;
 
 import com.neofacto.filmhub.api.auth.model.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class JwtServiceTest {

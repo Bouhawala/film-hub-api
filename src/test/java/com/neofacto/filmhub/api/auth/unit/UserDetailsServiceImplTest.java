@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.auth.service;
+package com.neofacto.filmhub.api.auth.unit;
 
 import com.neofacto.filmhub.api.auth.model.User;
 import com.neofacto.filmhub.api.auth.repository.UserRepository;
