@@ -114,10 +114,10 @@ class FilmsSliceTest {
 
     @Test
     void shouldReturnBadGatewayWhenFilmHubUnavailable() throws Exception {
-        when(filmHubClient.getAllFilms()).thenThrow(new FilmHubUnavailableException("FilmHub API is unavailable"));
+        when(filmHubClient.getAllFilms()).thenThrow(new FilmHubUnavailableException("FilmHub API internal error"));
 
         mockMvc.perform(get("/films"))
                 .andExpect(status().isBadGateway())
-                .andExpect(jsonPath("$.message").value("FilmHub API is unavailable"));
+                .andExpect(jsonPath("$.message").value("FilmHub API internal error"));
     }
 }

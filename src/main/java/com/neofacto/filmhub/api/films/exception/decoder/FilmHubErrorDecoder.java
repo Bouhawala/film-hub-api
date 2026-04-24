@@ -14,7 +14,7 @@ public class FilmHubErrorDecoder implements ErrorDecoder {
         return switch (response.status()) {
             case 404 -> new FilmNotFoundException("Film not found");
             case 500 -> new FilmHubUnavailableException("FilmHub API internal error");
-            default -> new FilmHubUnavailableException("FilmHub API is unavailable");
+            default -> new FilmHubUnavailableException("FilmHub API is currently unavailable");
         };
     }
 }

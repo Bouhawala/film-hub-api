@@ -65,7 +65,7 @@ class FilmsServiceTest {
 
     @Test
     void shouldThrowFilmHubUnavailableException() throws FilmHubUnavailableException {
-        when(filmHubClient.getAllFilms()).thenThrow(new FilmHubUnavailableException("FilmHub API is unavailable"));
+        when(filmHubClient.getAllFilms()).thenThrow(new FilmHubUnavailableException("FilmHub API is currently unavailable"));
 
         assertThrows(FilmHubUnavailableException.class, () -> filmsService.getAllFilms());
     }

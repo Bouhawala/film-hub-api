@@ -2,6 +2,7 @@ package com.neofacto.filmhub.api.auth.unit;
 
 import com.neofacto.filmhub.api.auth.model.User;
 import com.neofacto.filmhub.api.auth.repository.UserRepository;
+import com.neofacto.filmhub.api.auth.service.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

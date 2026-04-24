@@ -67,6 +67,6 @@ class FilmHubErrorDecoderTest {
         Exception exception = errorDecoder.decode("getAllFilms", response);
 
         assertInstanceOf(FilmHubUnavailableException.class, exception);
-        assertEquals("FilmHub API is unavailable", exception.getMessage());
+        assertEquals("FilmHub API is currently unavailable", exception.getMessage());
     }
 }

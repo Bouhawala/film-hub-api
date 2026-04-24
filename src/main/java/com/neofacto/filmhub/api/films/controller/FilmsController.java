@@ -6,28 +6,28 @@ import com.neofacto.filmhub.api.films.exception.FilmHubUnavailableException;
 import com.neofacto.filmhub.api.films.exception.FilmNotFoundException;
 import com.neofacto.filmhub.api.films.service.FilmsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RestController
-@RequestMapping("/films")
 @RequiredArgsConstructor
-public class FilmsController {
+@RequestMapping("/films")
+public class FilmsController implements FilmsControllerDefinition {
 
     private final FilmsService filmsService;
 
-    @GetMapping
     public ResponseEntity<List<FilmSummary>> getAllFilms() throws FilmHubUnavailableException {
+        log.info("Fetching all films");
         return ResponseEntity.ok(filmsService.getAllFilms());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<FilmDetails> getFilmById(@PathVariable Long id) throws FilmNotFoundException {
+    public ResponseEntity<FilmDetails> getFilmById(Long id) throws FilmNotFoundException {
+        log.info("Fetching film with id: {}", id);
         return ResponseEntity.ok(filmsService.getFilmById(id));
     }
 }
