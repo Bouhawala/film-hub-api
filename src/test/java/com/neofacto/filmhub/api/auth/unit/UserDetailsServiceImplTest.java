@@ -28,16 +28,16 @@ class UserDetailsServiceImplTest {
     @Test
     void shouldLoadUserByUsername() {
         User user = User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password("encodedPassword")
                 .build();
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-        UserDetails result = userDetailsService.loadUserByUsername("testuser");
+        UserDetails result = userDetailsService.loadUserByUsername("testUser");
 
         assertNotNull(result);
-        assertEquals("testuser", result.getUsername());
+        assertEquals("testUser", result.getUsername());
     }
 
     @Test

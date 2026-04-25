@@ -37,7 +37,7 @@ class JwtServiceTest {
     void shouldExtractUsername() {
         UserDetails userDetails = buildUser();
         String token = jwtService.generateToken(userDetails);
-        assertEquals("testuser", jwtService.extractUsername(token));
+        assertEquals("testUser", jwtService.extractUsername(token));
     }
 
     @Test
@@ -51,7 +51,7 @@ class JwtServiceTest {
     void shouldInvalidateTokenForWrongUser() {
         UserDetails userDetails = buildUser();
         UserDetails otherUser = User.builder()
-                .username("otheruser")
+                .username("otherUser")
                 .password("password")
                 .build();
         String token = jwtService.generateToken(userDetails);
@@ -60,7 +60,7 @@ class JwtServiceTest {
 
     private User buildUser() {
         return User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password("password")
                 .build();
     }

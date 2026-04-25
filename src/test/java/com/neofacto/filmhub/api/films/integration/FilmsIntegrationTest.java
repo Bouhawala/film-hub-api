@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.BEARER_PREFIX;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,12 +40,12 @@ class FilmsIntegrationTest extends WireMockTestBase {
         userRepository.deleteAll();
 
         userRepository.save(User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password(passwordEncoder.encode("password123"))
                 .build());
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("testuser");
+        loginRequest.setUsername("testUser");
         loginRequest.setPassword("password123");
 
         String response = mockMvc.perform(post("/auth/login")
@@ -72,7 +74,7 @@ class FilmsIntegrationTest extends WireMockTestBase {
         FilmsWireMock.getFilmById(wireMock);
 
         mockMvc.perform(get("/films/912649")
-                .header("Authorization", "Bearer " + token))
+                .header(AUTHORIZATION, BEARER_PREFIX + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Venom: The Last Dance"))
                 .andExpect(jsonPath("$.overview").value("Eddie and Venom are on the run."));
@@ -83,7 +85,7 @@ class FilmsIntegrationTest extends WireMockTestBase {
         FilmsWireMock.filmNotFound(wireMock);
 
         mockMvc.perform(get("/films/999999")
-                .header("Authorization", "Bearer " + token))
+                .header(AUTHORIZATION, BEARER_PREFIX + token))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Film not found"));
     }

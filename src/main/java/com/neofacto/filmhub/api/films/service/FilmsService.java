@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.FILMS;
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.FILM_DETAILS;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -20,15 +23,15 @@ public class FilmsService {
 
     private final FilmHubClient filmHubClient;
 
-    @RateLimiter(name = "films")
-    @Cacheable("films")
+    @RateLimiter(name = FILMS)
+    @Cacheable(FILMS)
     public List<FilmSummary> getAllFilms() throws FilmHubUnavailableException {
         log.info("Fetching all films from FilmHub API");
         return filmHubClient.getAllFilms();
     }
 
-    @RateLimiter(name = "films")
-    @Cacheable(value = "filmDetails", key = "#id")
+    @RateLimiter(name = FILMS)
+    @Cacheable(value = FILM_DETAILS, key = "#id")
     public FilmDetails getFilmById(Long id) throws FilmNotFoundException {
         log.info("Fetching film with id: {}", id);
         return filmHubClient.getFilmById(id);

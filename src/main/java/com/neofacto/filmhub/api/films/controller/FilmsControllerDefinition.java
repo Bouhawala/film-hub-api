@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Tag(name = "Films", description = "Films endpoints")
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.FILMS;
+
+@Tag(name = FILMS, description = "Films endpoints")
 public interface FilmsControllerDefinition {
 
     @Operation(summary = "Get all films", description = "Public endpoint, no authentication required")

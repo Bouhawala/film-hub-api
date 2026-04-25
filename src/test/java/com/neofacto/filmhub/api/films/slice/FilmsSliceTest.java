@@ -22,7 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.BEARER_PREFIX;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -55,12 +57,12 @@ class FilmsSliceTest {
         userRepository.deleteAll();
 
         userRepository.save(User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password(passwordEncoder.encode("password123"))
                 .build());
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("testuser");
+        loginRequest.setUsername("testUser");
         loginRequest.setPassword("password123");
 
         String response = mockMvc.perform(post("/auth/login")
@@ -96,7 +98,7 @@ class FilmsSliceTest {
         when(filmHubClient.getFilmById(1L)).thenReturn(film);
 
         mockMvc.perform(get("/films/1")
-                .header("Authorization", "Bearer " + token))
+                .header(AUTHORIZATION, BEARER_PREFIX + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Film 1"))
                 .andExpect(jsonPath("$.overview").value("Overview"));
@@ -107,7 +109,7 @@ class FilmsSliceTest {
         when(filmHubClient.getFilmById(999L)).thenThrow(new FilmNotFoundException("Film not found"));
 
         mockMvc.perform(get("/films/999")
-                .header("Authorization", "Bearer " + token))
+                .header(AUTHORIZATION, BEARER_PREFIX + token))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Film not found"));
     }

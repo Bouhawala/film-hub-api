@@ -3,6 +3,7 @@ package com.neofacto.filmhub.api.auth.unit;
 import com.neofacto.filmhub.api.auth.dto.AuthResponse;
 import com.neofacto.filmhub.api.auth.dto.LoginRequest;
 import com.neofacto.filmhub.api.auth.dto.RegisterRequest;
+import com.neofacto.filmhub.api.auth.dto.UpdateUserRequest;
 import com.neofacto.filmhub.api.auth.exception.UsernameAlreadyExistsException;
 import com.neofacto.filmhub.api.auth.model.User;
 import com.neofacto.filmhub.api.auth.repository.UserRepository;
@@ -47,10 +48,10 @@ class AuthServiceTest {
     @Test
     void shouldRegisterSuccessfully() throws UsernameAlreadyExistsException {
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
-        when(userRepository.existsByUsername("testuser")).thenReturn(false);
+        when(userRepository.existsByUsername("testUser")).thenReturn(false);
         when(passwordEncoder.encode("password123")).thenReturn("encodedPassword");
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("token");
 
@@ -64,10 +65,10 @@ class AuthServiceTest {
     @Test
     void shouldThrowWhenUsernameAlreadyExists() {
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
-        when(userRepository.existsByUsername("testuser")).thenReturn(true);
+        when(userRepository.existsByUsername("testUser")).thenReturn(true);
 
         assertThrows(UsernameAlreadyExistsException.class, () -> authService.register(request));
         verify(userRepository, never()).save(any(User.class));
@@ -76,15 +77,15 @@ class AuthServiceTest {
     @Test
     void shouldLoginSuccessfully() {
         LoginRequest request = new LoginRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
         User user = User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password("encodedPassword")
                 .build();
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("token");
 
         AuthResponse response = authService.login(request);
@@ -108,13 +109,34 @@ class AuthServiceTest {
     @Test
     void shouldThrowWhenBadCredentials() {
         LoginRequest request = new LoginRequest();
-        request.setUsername("testuser");
-        request.setPassword("wrongpassword");
+        request.setUsername("testUser");
+        request.setPassword("wrongPassword");
 
         doThrow(new BadCredentialsException("Bad credentials"))
                 .when(authenticationManager).authenticate(any());
 
         assertThrows(BadCredentialsException.class, () -> authService.login(request));
         verify(userRepository, never()).findByUsername(any());
+    }
+
+    @Test
+    void shouldUpdateUserSuccessfully() {
+        UpdateUserRequest request = new UpdateUserRequest();
+        request.setEmail("new@email.com");
+        request.setNewPassword("newPassword123");
+
+        User user = User.builder()
+                .username("testUser")
+                .password("encodedPassword")
+                .build();
+
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(passwordEncoder.encode("newPassword123")).thenReturn("newEncodedPassword");
+
+        authService.updateUser(request, "testUser");
+
+        verify(userRepository).save(any(User.class));
+        assertEquals("new@email.com", user.getEmail());
+        assertEquals("newEncodedPassword", user.getPassword());
     }
 }

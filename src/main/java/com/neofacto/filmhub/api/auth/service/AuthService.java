@@ -3,10 +3,12 @@ package com.neofacto.filmhub.api.auth.service;
 import com.neofacto.filmhub.api.auth.dto.AuthResponse;
 import com.neofacto.filmhub.api.auth.dto.LoginRequest;
 import com.neofacto.filmhub.api.auth.dto.RegisterRequest;
+import com.neofacto.filmhub.api.auth.dto.UpdateUserRequest;
 import com.neofacto.filmhub.api.auth.exception.UsernameAlreadyExistsException;
 import com.neofacto.filmhub.api.auth.model.User;
 import com.neofacto.filmhub.api.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +32,7 @@ public class AuthService {
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
                 .build();
 
         userRepository.save(user);
@@ -53,5 +56,19 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user))
                 .build();
+    }
+
+    public void updateUser(UpdateUserRequest request, String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (StringUtils.isNotBlank(request.getEmail())) {
+            user.setEmail(request.getEmail());
+        }
+        if (StringUtils.isNotBlank(request.getNewPassword())) {
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        }
+
+        userRepository.save(user);
     }
 }

@@ -3,6 +3,7 @@ package com.neofacto.filmhub.api.auth.slice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neofacto.filmhub.api.auth.dto.LoginRequest;
 import com.neofacto.filmhub.api.auth.dto.RegisterRequest;
+import com.neofacto.filmhub.api.auth.dto.UpdateUserRequest;
 import com.neofacto.filmhub.api.auth.model.User;
 import com.neofacto.filmhub.api.auth.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +13,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.neofacto.filmhub.api.shared.constants.AppConstants.BEARER_PREFIX;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,7 +49,7 @@ class AuthSliceTest {
     @Test
     void shouldRegisterSuccessfully() throws Exception {
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
         mockMvc.perform(post("/auth/register")
@@ -57,12 +62,12 @@ class AuthSliceTest {
     @Test
     void shouldReturnConflictWhenUsernameExists() throws Exception {
         userRepository.save(User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password(passwordEncoder.encode("password123"))
                 .build());
 
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
         mockMvc.perform(post("/auth/register")
@@ -75,12 +80,12 @@ class AuthSliceTest {
     @Test
     void shouldLoginSuccessfully() throws Exception {
         userRepository.save(User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password(passwordEncoder.encode("password123"))
                 .build());
 
         LoginRequest request = new LoginRequest();
-        request.setUsername("testuser");
+        request.setUsername("testUser");
         request.setPassword("password123");
 
         mockMvc.perform(post("/auth/login")
@@ -93,13 +98,13 @@ class AuthSliceTest {
     @Test
     void shouldReturnUnauthorizedWhenBadCredentials() throws Exception {
         userRepository.save(User.builder()
-                .username("testuser")
+                .username("testUser")
                 .password(passwordEncoder.encode("password123"))
                 .build());
 
         LoginRequest request = new LoginRequest();
-        request.setUsername("testuser");
-        request.setPassword("wrongpassword");
+        request.setUsername("testUser");
+        request.setPassword("wrongPassword");
 
         mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,6 +124,32 @@ class AuthSliceTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").isNotEmpty());
+    }
+
+    @Test
+    @WithMockUser("testUser")
+    void shouldUpdateUserWithToken() throws Exception {
+        userRepository.save(User.builder()
+                .username("testUser")
+                .password(passwordEncoder.encode("password123"))
+                .build());
+
+        String response = mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequest("testUser", "password123"))))
+                .andReturn().getResponse().getContentAsString();
+
+        String token = objectMapper.readTree(response).get("token").asText();
+
+        UpdateUserRequest request = new UpdateUserRequest();
+        request.setEmail("new@email.com");
+        request.setNewPassword("newPassword123");
+
+        mockMvc.perform(put("/auth/profile")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(AUTHORIZATION, BEARER_PREFIX + token)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
     }
 
 }
