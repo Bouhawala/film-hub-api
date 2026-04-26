@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.shared.filter;
+package com.neofacto.filmhub.api.shared;
 
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.http.HttpStatus;

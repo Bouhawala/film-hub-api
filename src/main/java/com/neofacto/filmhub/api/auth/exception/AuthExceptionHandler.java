@@ -1,6 +1,6 @@
 package com.neofacto.filmhub.api.auth.exception;
 
-import com.neofacto.filmhub.api.shared.filter.ErrorResponse;
+import com.neofacto.filmhub.api.shared.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
