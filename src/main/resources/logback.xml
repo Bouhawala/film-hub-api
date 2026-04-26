@@ -18,4 +18,15 @@
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
+
+    <springProfile name="!local &amp; !prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss} %highlight(%-5level) [%cyan(requestId=%X{requestId})] [%yellow(%X{method} %X{path})] - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
 </configuration>
