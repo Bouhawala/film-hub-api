@@ -1,6 +1,6 @@
 package com.neofacto.filmhub.api.films.exception;
 
-import com.neofacto.filmhub.api.shared.ErrorResponse;
+import com.neofacto.filmhub.api.shared.filter.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
