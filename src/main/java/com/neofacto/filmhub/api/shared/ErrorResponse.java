@@ -1,4 +1,4 @@
-package com.neofacto.filmhub.api.shared.filter;
+package com.neofacto.filmhub.api.shared;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
