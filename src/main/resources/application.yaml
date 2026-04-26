@@ -24,6 +24,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 3000
+            read-timeout: 10000
 
 info:
   app:
@@ -32,7 +39,7 @@ info:
 
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 60000 # 15 minutes in milliseconds
+  expiration: 900000 # 15 minutes in milliseconds
 
 filmhub:
   base-url: https://api.film-hub.neofacto.dev
