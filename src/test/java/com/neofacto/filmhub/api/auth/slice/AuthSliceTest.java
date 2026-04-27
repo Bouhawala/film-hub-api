@@ -145,7 +145,7 @@ class AuthSliceTest {
         request.setEmail("new@email.com");
         request.setNewPassword("newPassword123");
 
-        mockMvc.perform(put("/auth/profile")
+        mockMvc.perform(put("/auth/account")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(AUTHORIZATION, BEARER_PREFIX + token)
                         .content(objectMapper.writeValueAsString(request)))

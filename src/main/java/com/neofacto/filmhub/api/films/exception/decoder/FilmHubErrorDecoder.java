@@ -18,9 +18,10 @@ public class FilmHubErrorDecoder implements ErrorDecoder {
                     response.status(),
                     "Service temporarily unavailable, retrying...",
                     response.request().httpMethod(),
-                    (Long) null,
+                    System.currentTimeMillis() + 10000L,
                     response.request()
             );
+            case 500 -> new FilmHubUnavailableException("FilmHub API internal error");
             default -> new FilmHubUnavailableException("FilmHub API is currently unavailable");
         };
     }

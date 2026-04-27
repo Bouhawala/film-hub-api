@@ -14,5 +14,11 @@ spring:
       ddl-auto: create-drop
     show-sql: false
 
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
 filmhub:
   base-url: http://localhost:8089

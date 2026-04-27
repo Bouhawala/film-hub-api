@@ -11,6 +11,9 @@ management:
       show-details: always
 
 spring:
+  web:
+    locale: en
+    locale-resolver: fixed
   datasource:
     url: jdbc:h2:mem:filmhubdb
     driver-class-name: org.h2.Driver
@@ -20,10 +23,10 @@ spring:
     console:
       enabled: false
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
   cloud:
     openfeign:
       client:

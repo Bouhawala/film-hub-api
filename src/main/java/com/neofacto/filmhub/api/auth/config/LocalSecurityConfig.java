@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
-@Profile({"local", "test"})
+@Profile("local")
 @RequiredArgsConstructor
 public class LocalSecurityConfig {
 
