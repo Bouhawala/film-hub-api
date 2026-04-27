@@ -37,5 +37,5 @@ build/
 mvnw
 mvnw.cmd
 
-src/main/resources/application-local.yml
-src/test/resources/application-test.yml
+src/main/resources/application-local.yaml
+src/test/resources/application-test.yaml
