@@ -36,3 +36,6 @@ build/
 .gitattributes
 mvnw
 mvnw.cmd
+
+src/main/resources/application-local.yml
+src/test/resources/application-test.yml
