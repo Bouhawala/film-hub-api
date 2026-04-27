@@ -38,17 +38,17 @@ public class FilmsService {
     }
 
     public List<FilmSummary> getAllFilmsFallback(Throwable t) throws FilmHubUnavailableException {
-        log.warn("Rate limiter triggered for getAllFilms: {}", t.getMessage());
+        log.error("Rate limiter triggered for getAllFilms: {}", t.getMessage());
         throw new FilmHubUnavailableException("FilmHub API is currently unavailable");
     }
 
     public FilmDetails getFilmByIdFallback(Long id, FilmNotFoundException e) throws FilmNotFoundException {
-        log.warn("Film not found with id: {}", id);
+        log.error("Film not found with id: {}", id);
         throw e;
     }
 
     public FilmDetails getFilmByIdFallback(Long id, Throwable t) throws FilmHubUnavailableException {
-        log.warn("FilmHub API unavailable for film id {}: {}", id, t.getMessage());
+        log.error("FilmHub API unavailable for film id {}: {}", id, t.getMessage());
         throw new FilmHubUnavailableException("FilmHub API is currently unavailable");
     }
 }

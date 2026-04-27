@@ -2,6 +2,14 @@
 
 A Spring Boot backend service that acts as a secure wrapper around the FilmHub external API, implementing JWT-based authentication and various enterprise-grade features.
 
+## 🌍 Live Demo
+
+| Service | URL                                                         |
+|---------|-------------------------------------------------------------|
+| **Backend API** | https://film-hub-api-xnp0.onrender.com                      |
+| **Swagger UI** | https://film-hub-api-xnp0.onrender.com/swagger-ui/index.html |
+| **Frontend** | https://film-hub-app.netlify.app                            |
+
 ## 🏗️ Architecture
 ```
 ┌─────────────────────────────────────────┐
@@ -14,7 +22,7 @@ A Spring Boot backend service that acts as a secure wrapper around the FilmHub e
 │ - Profile   │ - Resilience4j            │
 └─────────────┴───────────────────────────┘
 ↕                    ↕
-PostgreSQL/H2     FilmHub External API
+H2     FilmHub External API
 https://api.film-hub.neofacto.dev
 ```
 
@@ -63,17 +71,17 @@ https://api.film-hub.neofacto.dev
 ## 🌍 Profiles
 
 | Profile | Database | Security | Purpose |
-|---------|----------|----------|---------|
+|---------|---------|----------|---------|
 | `local` | H2 | Disabled | Local development |
 | `test` | H2 | Disabled | Testing |
-| default | H2/PostgreSQL | Enabled | Production |
+| default | H2 | Enabled | Production |
 
 ## ⚙️ Environment Variables
 
 | Variable | Description | Required |
 |----------|-------------|----------|
 | `JWT_SECRET` | JWT signing secret | Yes (prod) |
-| `DB_URL` | PostgreSQL connection URL | No (defaults to H2) |
+| `DB_URL` | No (defaults to H2) |
 | `DB_USERNAME` | Database username | No |
 | `DB_PASSWORD` | Database password | No |
 

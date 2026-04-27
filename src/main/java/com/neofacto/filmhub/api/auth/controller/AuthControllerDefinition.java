@@ -40,6 +40,6 @@ public interface AuthControllerDefinition {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
     @SecurityRequirement(name = "JWT")
-    @PutMapping("/profile")
+    @PutMapping("/account")
     ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserRequest request);
 }
