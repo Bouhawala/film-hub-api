@@ -2,6 +2,14 @@
 
 A Spring Boot backend service that acts as a secure wrapper around the FilmHub external API, implementing JWT-based authentication and various enterprise-grade features.
 
+## 🌍 Live Demo
+
+| Service | URL                                                         |
+|---------|-------------------------------------------------------------|
+| **Backend API** | https://film-hub-api-xnp0.onrender.com                      |
+| **Swagger UI** | https://film-hub-api-xnp0.onrender.com/swagger-ui/index.html |
+| **Frontend** | https://film-hub-app.netlify.app                            |
+
 ## 🏗️ Architecture
 ```
 ┌─────────────────────────────────────────┐
